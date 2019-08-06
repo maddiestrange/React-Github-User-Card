@@ -2,6 +2,8 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
 import axios from 'axios';
+import FollowerCards from './components/FollowerCards';
+import UserCard from './components/UserCard';
 
 class App extends React.Component {
   constructor() {
@@ -9,6 +11,7 @@ class App extends React.Component {
     this.state = {
      name: '',
      img: '',
+     login: '',
      followers: []
     };
   }
@@ -25,7 +28,8 @@ class App extends React.Component {
       .then(data => {
         this.setState({
             name: data.data.name,
-            img: data.data.avatar_url
+            img: data.data.avatar_url,
+            login: data.data.login
             })})
         .catch(err => {
             console.log(err);
@@ -45,17 +49,10 @@ class App extends React.Component {
   render() {
     return (
       <div>
-        <h1>My github</h1>
-        <h2>{this.state.name}</h2>
-        <img width="200" src={this.state.img} alt="avatar img" />
-        <div>
-        {this.state.followers.map(follower => {
-          return ( 
-          <>
-          <h2>{follower.name}</h2>
-          <img src={follower.avatar_url}/></>
-          )})}
-          </div>
+        <UserCard name={this.state.name}
+                  login={this.state.login}
+                  img={this.state.img}/>
+        <FollowerCards data={this.state.followers}/>
       </div>
     );
   }
